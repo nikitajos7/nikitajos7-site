@@ -60,13 +60,28 @@ The workflow uses these GitHub Actions secrets:
 ### Manual deploy
 No manual steps are required; pushes to `main` deploy automatically.
 
-## Grader Access (SSH)
+## Grader Login Instructions
 
-Host: nikitajos7.site (138.68.56.253)  
-User: grader  
-Password: graderpassword 
-SSH key: grader_ed25519 (included in submission)  
-Key passphrase: none
+The grader account is configured for SSH key authentication.
+
+**Host:**  
+nikitajos7.site (138.68.56.253)
+
+**Username:**  
+grader
+
+**Authentication Method:**  
+SSH key (ed25519)
+
+**Private Key File:**  
+grader_ed25519 (included in submission)
+
+**Key Passphrase:**  
+None
+
+**Login Command:**
+```bash
+ssh -i grader_ed25519 grader@nikitajos7.site
 
 ## Team Site Authentication
 
