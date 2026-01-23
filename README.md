@@ -53,3 +53,39 @@ Server: CSE135 Server
 ```
 
 and no Apache or NGINX version information is exposed.
+
+## Analytics System: Matomo
+
+I installed and configured **Matomo (self-hosted)** to track traffic and user activity on our website.
+
+### Tool Used
+- **Matomo** — https://matomo.org/
+
+### Setup Summary
+- Installed Matomo on the VM and served it at:
+  https://analytics.nikitajos7.site
+- Configured Nginx (reverse proxy) and Apache with PHP support.
+- Completed the Matomo web installer (database, tables, superuser, site setup).
+- Verified HTTPS access and dashboard functionality.
+
+### Tracking Integration
+The following tracking code was added to the `<head>` of `nikitajos7.site` to enable page view tracking:
+
+```html
+<script>
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//analytics.nikitajos7.site/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+```
+
+### Verification
+- Matomo Dashboard: https://analytics.nikitajos7.site  
+- Tracked Site: https://nikitajos7.site
