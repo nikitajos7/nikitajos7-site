@@ -1,6 +1,46 @@
 # nikitajos7-site
 CSE 135 Site
 
+## Main Site
+https://nikitajos7.site
+
+Collector:
+https://collector.nikitajos7.site
+
+Reporting:
+https://reporting.nikitajos7.site
+
+---
+
+Configured via:
+- /etc/apache2/.htpasswd
+- nikitajos7.site.conf
+
+---
+
+## Required Pages Verified
+
+- Homepage with team + homework links  
+  https://nikitajos7.site
+
+- Team member page  
+  https://nikitajos7.site/members/nikita.html
+
+- favicon  
+  /favicon.ico
+
+- robots.txt  
+  https://nikitajos7.site/robots.txt
+
+- PHP verification  
+  https://nikitajos7.site/hw1/hello.php
+
+- Report page  
+  https://nikitajos7.site/hw1/report.html
+
+---
+
+
 ## GitHub Auto-Deploy Setup
 
 This site is deployed automatically to a DigitalOcean droplet on every push to `main` using GitHub Actions.
@@ -19,6 +59,14 @@ The workflow uses these GitHub Actions secrets:
 
 ### Manual deploy
 No manual steps are required; pushes to `main` deploy automatically.
+
+## Grader Access (SSH)
+
+Host: nikitajos7.site (138.68.56.253)  
+User: grader  
+Password: graderpassword 
+SSH key: grader_ed25519 (included in submission)  
+Key passphrase: none
 
 ## Team Site Authentication
 
