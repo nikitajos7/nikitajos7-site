@@ -19,3 +19,14 @@ The workflow uses these GitHub Actions secrets:
 
 ### Manual deploy
 No manual steps are required; pushes to `main` deploy automatically.
+
+## Team Site Authentication
+
+The team site is protected using Apache Basic Authentication.
+
+Username: teamuser  
+Password: password123
+
+Auth is configured in Apache using:
+- /etc/apache2/.htpasswd
+- <Directory> block in nikitajos7.site.conf
