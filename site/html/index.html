@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSE 135 Team Site</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>CSE 135</h1>
+    <p>Team site for homework links.</p>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Homework 1</h2>
+    </section>
+
+
+
+    <aside class="card">
+      <h2>Team Members</h2>
+      <ul>
+        <li><a href="/members/nikita.html">Nikita</a></li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>Hosted on DigitalOcean • <span id="ts"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById('ts').textContent = new Date().toString();
+  </script>
+</body>
+</html>
