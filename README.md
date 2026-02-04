@@ -152,3 +152,42 @@ The following tracking code was added to the `<head>` of `nikitajos7.site` to en
 ### Verification
 - Matomo Dashboard: https://analytics.nikitajos7.site  
 - Tracked Site: https://nikitajos7.site
+
+## Server Information
+
+- Server IP Address: 138.68.56.253
+- Server OS: Ubuntu
+- Web Server: Apache
+- SSH Access: Key-based authentication
+- SSH Username: nikita
+
+## Homework 2 – CGI Programs
+
+All Homework 2 demos are linked from the homepage under Homework 2 and are organized by language.
+
+### Languages Used
+- Perl (provided examples from Part 1)
+- PHP
+- NodeJS (proxied through Apache)
+
+### Demo Programs Implemented (3 Languages × 5 Demos)
+- hello-html-language
+- hello-json-language
+- environment-language
+- echo-language
+- state-language
+
+Each demo is accessible via a direct link from the homepage and returns HTTP 200 responses.
+
+
+## Third-Party Analytics – Free Choice
+
+I chose Microsoft Clarity because it provides session replays and
+heatmaps while remaining easy to integrate and free to use. Unlike
+Google Analytics, Clarity focuses on visual interaction data such as
+scroll depth and click behavior. Compared to LogRocket, it is less
+invasive and does not require authentication to view sessions.
+
+Overall, Clarity complemented Google Analytics and LogRocket by
+providing a privacy-conscious, visual understanding of user behavior
+on our site.
