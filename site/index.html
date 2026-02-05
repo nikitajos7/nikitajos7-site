@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CSE 135 Team Site</title>
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2JEBMJHSV0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2JEBMJHSV0');
+</script>
+<script src="https://cdn.logr-in.com/LogRocket.min.js" crossorigin="anonymous"></script>
+<script>window.LogRocket && window.LogRocket.init('ptvhlh/nikitajos7site');</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vbykdqgpqz");
+</script>
 </head>
 <body>
   <header class="header">
@@ -13,34 +31,96 @@
   </header>
 
   <main class="grid">
-    <section class="card">
+
+    <section class="card hw1-card">
       <h2>Homework 1</h2>
-	<p>Demo Deployment</p>
-	<ul>
-    	  <li><a href="/favicon.ico">favicon</a></li>
-    	  <li><a href="/robots.txt">robots.txt</a></li>
-    	  <li><a href="/hw1/hello.php">hw1/hello.php</a></li>
-  	  <li><a href="/hw1/report.html">hw1/report.html</a></li>
-  	</ul>
+      <p>Demo Deployment</p>
+      <ul>
+        <li><a href="/favicon.ico">favicon</a></li>
+        <li><a href="/robots.txt">robots.txt</a></li>
+        <li><a href="/hw1/hello.php">hw1/hello.php</a></li>
+        <li><a href="/hw1/report.html">hw1/report.html</a></li>
+      </ul>
     </section>
 
-    <aside class="card">
+    <aside class="card team-card">
       <h2>Team Members</h2>
       <ul>
         <li><a href="/members/nikita.html">Nikita</a></li>
       </ul>
     </aside>
 
-    <div class="card">
+    <section class="card hw-section">
+      <h2>Homework 2</h2>
+
+      <div class="hw2-columns">
+
+        <section class="hw2-col">
+          <h3>Perl</h3>
+          <ul>
+            <li><a href="/cgi-bin/hw2/perl/perl-hello-html-world.pl">Hello, Perl!</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-hello-json.pl">perl-hello-json</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-environment.pl">perl-environment</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-get-echo.pl">perl-get-echo</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-post-echo.pl">perl-post-echo</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-general-echo.pl">perl-general-echo</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-sessioning-1.pl">perl-sessioning-1</a></li>
+            <li><a href="/cgi-bin/hw2/perl/perl-sessioning-2.pl">perl-sessioning-2</a></li>
+          </ul>
+        </section>
+
+        <section class="hw2-col">
+          <h3>Python</h3>
+          <ul>
+            <li><a href="/cgi-bin/hw2/python/hello-html-python.py">hello-html-python</a></li>
+            <li><a href="/cgi-bin/hw2/python/hello-json-python.py">hello-json-python</a></li>
+            <li><a href="/cgi-bin/hw2/python/environment-python.py">environment-python</a></li>
+            <li><a href="/cgi-bin/hw2/python/echo-python.py">echo-python</a></li>
+            <li><a href="/cgi-bin/hw2/python/state-python.py">state-python</a></li>
+          </ul>
+
+        </section>
+
+        <section class="hw2-col">
+          <h3>PHP</h3>
+          <ul>
+            <li><a href="/cgi-bin/hw2/php/hello-html-php.php">hello-html-php</a></li>
+            <li><a href="/cgi-bin/hw2/php/hello-json-php.php">hello-json-php</a></li>
+            <li><a href="/cgi-bin/hw2/php/environment-php.php">environment-php</a></li>
+            <li><a href="/cgi-bin/hw2/php/echo-php.php">echo-php</a></li>
+            <li><a href="/cgi-bin/hw2/php/state-php.php">state-php</a></li>
+          </ul>
+        </section>
+
+        <section class="hw2-col">
+          <h3>Node</h3>
+          <ul>
+            <li><a href="/cgi-bin/hw2/node/hello-html-node.js">hello-html-node</a></li>
+            <li><a href="/cgi-bin/hw2/node/hello-json-node.js">hello-json-node</a></li>
+            <li><a href="/cgi-bin/hw2/node/environment-node.js">environment-node</a></li>
+            <li><a href="/cgi-bin/hw2/node/echo-node.js">echo-node</a></li>
+            <li><a href="/cgi-bin/hw2/node/state-node.js">state-node</a></li>
+          </ul>
+        </section>
+
+	  <ul class="hw2-sublinks">
+            <li><a href="/hw2/fingerprint/collect.html">Fingerprint collect</a></li>
+            <li><a href="/hw2/fingerprint/whoami.html">Fingerprint reassociation</a></li>
+          </ul>
+
+      </div>
+    </section>
+
+    <section class="card analytics-card">
       <h2>Analytics</h2>
       <ul>
         <li>
-          <a href="https://analytics.nikitajos7.site" target="_blank">
+          <a href="https://analytics.nikitajos7.site" target="_blank" rel="noopener">
             Analytics Dashboard (Matomo)
           </a>
         </li>
       </ul>
-    </div>
+    </section>
 
   </main>
 
@@ -49,7 +129,7 @@
   </footer>
 
   <script>
-    document.getElementById('ts').textContent = new Date().toString();
+    document.getElementById("ts").textContent = new Date().toString();
   </script>
 </body>
 </html>
