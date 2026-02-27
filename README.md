@@ -10,6 +10,10 @@ https://collector.nikitajos7.site
 Reporting:
 https://reporting.nikitajos7.site
 
+- Target Site: https://test.nikitajos7.site  
+- Collector Endpoint: https://collector.nikitajos7.site/collect  
+- Reporting API: https://reporting.nikitajos7.site/api/events  
+
 ---
 
 Configured via:
@@ -191,3 +195,22 @@ invasive and does not require authentication to view sessions.
 Overall, Clarity complemented Google Analytics and LogRocket by
 providing a privacy-conscious, visual understanding of user behavior
 on our site.
+
+---
+
+## Changes Made to collector.js Beyond the CSE135 Tutorial
+
+The collector implementation follows the CSE135 tutorial structure but includes the following enhancements:
+
+- Implemented session tracking using sessionStorage with UUID generation.
+- Batched activity events and flushed them every 3 seconds to reduce network overhead.
+- Added idle detection with duration calculation (idle_start and idle_end events).
+- Throttled mousemove events to prevent excessive logging.
+- Implemented dynamic image and CSS capability detection.
+- Extracted detailed navigation performance metrics and manually calculated total load time.
+- Structured payloads consistently for JSONB storage in PostgreSQL.
+- Used sendBeacon() with fetch() fallback for reliable data transmission.
+- Added explicit page_enter and page_leave lifecycle events.
+- Captured runtime errors and unhandled promise rejections.
+- Hardened for production deployment with HTTPS, reverse proxying, and CORS configuration.
+
