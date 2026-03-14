@@ -57,8 +57,6 @@ Resize the browser below 900px. The sidebar disappears and a ☰ hamburger butto
 
 ## Areas of Concern — Bugs and Architecture
 
-I want to be upfront about the following. Please apply half-consequence where these fall short of expectations.
-
 **1. In-memory sessions**
 Sessions are stored in a JavaScript object on the server process. They are lost on every server restart and do not support horizontal scaling. A production implementation would use Redis or a database-backed session store. I am aware this is a meaningful architectural gap.
 
@@ -72,7 +70,7 @@ The API supports `page` and `limit` query parameters on the errors and top-pages
 There is no "reset to all sections" button in the UI — you can only assign specific sections or leave all unchecked. Leaving all unchecked grants access to everything (null in the DB means unrestricted). This is intentional but the label "leave all unchecked = access to all sections" may be non-obvious.
 
 **5. WoW null handling**
-When the prior period has no data, the week-over-week value returns as `null` and the badge does not render. This is correct behavior but may look like a missing feature on date ranges where there is no comparison data available.
+When the prior period has no data, the week-over-week value returns as `null` and the badge does not render. This is correct behavior but may look like a missing feature on date ranges where there is no comparison data available. This is the behavior that shows now because there isn't enough data at the moment.
 
 **6. No email delivery for PDFs**
 PDFs are saved to `/exports/` on the server and served via a direct URL. There is no email delivery. This was not implemented.
