@@ -308,3 +308,201 @@ Charts include labeled axes, a fill gradient, and responsive sizing.
 | DELETE | /api/users/:id     | Admin+   | Delete dashboard user              |
 
 All analytics endpoints accept optional `start`, `end` (YYYY-MM-DD), `page`, and `limit` query parameters.
+
+# CSE 135 — Analytics Dashboard
+**Modules 4, 5, 6 — Reporting API, Dashboard SPA, Decisions**
+
+- **Dashboard:** https://reporting.nikitajos7.site/html/
+- **API Base:** https://reporting.nikitajos7.site/api/
+- **Collector:** collector.nikitajos7.site (collecting from test.nikitajos7.site)
+
+---
+
+## Project Overview
+
+This project implements the full reporting pipeline for the CSE 135 analytics system built across modules 4–6. It consists of a Node.js/Express reporting API backed by PostgreSQL, a single-page dashboard application, and a decisions layer with saved reports and PDF exports.
+
+The system collects behavioral telemetry from a tracked website and surfaces it through a role-gated analytics dashboard with support for multiple analyst accounts, per-section access control, and exportable reports with analyst commentary.
+
+---
+
+## Architecture
+
+```
+Browser (SPA)
+    │
+    ├── Hash-based routing (#/overview, #/performance, etc.)
+    ├── Canvas API charts (line, bar, horizontal bar)
+    └── Fetch API → Reporting API
+            │
+            ├── Express on port 3010 (proxied via Nginx)
+            ├── PostgreSQL — collector_db
+            │       ├── events         (raw telemetry from collector)
+            │       ├── dashboard_users
+            │       └── reports
+            └── pdfkit — server-side PDF generation → /exports/
+```
+
+**Server:** DigitalOcean Droplet (Ubuntu 24, 2GB RAM)
+**Node.js:** v18.19.1
+**Database:** PostgreSQL, collector_db, single `events` table
+**Auth:** In-memory PBKDF2 sessions, 24hr expiry
+**PDF:** pdfkit (Puppeteer ruled out due to 2GB RAM constraint)
+
+---
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js v18 |
+| Framework | Express 4 |
+| Database | PostgreSQL (pg) |
+| PDF | pdfkit |
+| Auth | PBKDF2 (crypto), in-memory sessions |
+| Frontend | Vanilla JS SPA, Canvas API charts |
+| Reverse proxy | Nginx |
+| Process manager | systemd |
+
+---
+
+## Login Credentials
+
+| Role | Email | Password | Access |
+|---|---|---|---|
+| Super Admin | admin@nikitajos7.site | admin123 | Everything including user management |
+| Analyst Sam | analyst@nikitajos7.site | analyst123 | All 5 analytics sections |
+| Analyst Sally | sally@nikitajos7.site | sally123 | Performance + Errors only |
+| Viewer | viewer@nikitajos7.site | viewer123 | Saved reports only (read-only) |
+
+---
+
+## API Endpoints
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | /api/login | — | Returns session token + user |
+| POST | /api/logout | Any | Invalidates session |
+| GET | /api/me | Any | Current user info |
+| GET | /api/dashboard | Analyst, section:overview | Summary stats + WoW |
+| GET | /api/pageviews | Analyst, section:overview | Timeseries + top pages |
+| GET | /api/performance | Analyst, section:performance | Percentiles + budgets + WoW |
+| GET | /api/errors | Analyst, section:errors | Trend + triage table + WoW |
+| GET | /api/sessions | Analyst, section:sessions | Session totals + WoW + timeseries |
+| GET | /api/activity | Analyst, section:overview | Latest raw events (live feed) |
+| GET | /api/behavioral | Analyst, section:behavioral | Event types + idle + pages + WoW |
+| GET | /api/reports | Any | List saved reports |
+| GET | /api/reports/:id | Any | Single report |
+| POST | /api/reports | Analyst | Save report with snapshot |
+| DELETE | /api/reports/:id | Analyst | Delete (own or owner=any) |
+| POST | /api/reports/:id/pdf | Analyst | Generate PDF |
+| GET | /api/users | Admin+ | List users |
+| POST | /api/users | Admin+ | Create user |
+| PUT | /api/users/:id | Admin+ | Update user |
+| DELETE | /api/users/:id | Admin+ | Delete user |
+| GET | /events | — | Legacy raw events |
+
+All analytics endpoints accept `?start=YYYY-MM-DD&end=YYYY-MM-DD` query parameters.
+
+---
+
+## Dashboard Sections
+
+1. **Overview** — pageview count, sessions, avg load time, error batches; pageviews-over-time line chart; top pages table; live activity feed (auto-refreshes every 10s)
+2. **Performance** — p50/p75/p95 load time cards with WoW; bar chart with budget threshold lines; Performance Budget Tracker table; per-page load time table
+3. **Errors** — alert bar (red if errors up, green if down); error trend line chart; triage table with Critical/High/Low priority badges
+4. **Sessions** — total sessions, pageviews, pages-per-session with WoW; sessions-over-time line chart
+5. **Behavioral** — event type bar chart; most-active pages horizontal bar chart; engagement bars; idle statistics
+6. **Saved Reports** — all roles; PDF export; analyst commentary displayed inline
+7. **Users** (Super Admin only) — create/delete users; assign per-analyst section permissions via checkboxes
+
+---
+
+## Role Hierarchy
+
+```
+owner  (Super Admin)  — full access, user management, cannot be deleted
+admin  (Analyst)      — analytics access, scoped by sections[], save/export reports
+viewer                — saved reports read-only, no analytics access
+```
+
+Analysts without a `sections` restriction see all sections. Analysts with a `sections` array (e.g. `['performance','errors']`) are blocked from all other sections server-side (403) and client-side (nav hidden, 403 page on direct navigation).
+
+---
+
+## Database Tables
+
+```sql
+-- Raw telemetry (from collector, not modified here)
+events (
+  id          BIGINT,
+  received_at TIMESTAMPTZ,
+  session     TEXT,
+  page        TEXT,
+  type        TEXT,
+  ip          TEXT,
+  user_agent  TEXT,
+  payload     JSONB
+)
+
+-- Dashboard users
+dashboard_users (
+  id            SERIAL PRIMARY KEY,
+  email         TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
+  role          TEXT CHECK (role IN ('viewer','admin','owner')),
+  sections      TEXT[],        -- null = all sections, array = restricted
+  created_at    TIMESTAMPTZ,
+  last_login    TIMESTAMPTZ
+)
+
+-- Saved reports
+reports (
+  id         SERIAL PRIMARY KEY,
+  title      TEXT NOT NULL,
+  section    TEXT NOT NULL,
+  comment    TEXT NOT NULL,
+  snapshot   JSONB NOT NULL,  -- data captured at save time
+  pdf_url    TEXT,
+  created_by INTEGER REFERENCES dashboard_users(id),
+  created_at TIMESTAMPTZ
+)
+```
+
+---
+
+## File Structure
+
+```
+/var/www/reporting.nikitajos7.site/
+├── api/
+│   └── server.js       — Express API (port 3010)
+├── html/
+│   ├── index.html      — SPA dashboard
+│   └── styles.css      — Dark theme stylesheet
+└── exports/            — Generated PDFs served statically
+```
+
+---
+
+## Deploy Commands
+
+```bash
+sudo cp server.js  /var/www/reporting.nikitajos7.site/api/server.js
+sudo cp index.html /var/www/reporting.nikitajos7.site/html/index.html
+sudo cp styles.css /var/www/reporting.nikitajos7.site/html/styles.css
+sudo systemctl restart reporting-api
+sudo journalctl -u reporting-api -n 40 --no-pager
+```
+
+Watch for `Seeded owner: admin@nikitajos7.site` lines to confirm DB setup ran.
+
+---
+
+## Known Limitations
+
+1. **Limited real data** — The collector has approximately 24 rows. Set the date range to `2024-01-01 → today` to see all available data. Week-over-week comparisons will show `null` when the previous period has no data.
+2. **In-memory sessions** — Sessions are stored in a JavaScript object and are lost on server restart. A production system would use Redis or a DB-backed session store.
+3. **PDF charts are drawn bars, not canvas screenshots** — Puppeteer was not viable on this server due to the 2GB RAM constraint. PDFs use pdfkit with programmatically drawn bar charts instead.
+4. **No email delivery** — PDF export saves the file to `/exports/` and serves it via URL. Email delivery was not implemented.
